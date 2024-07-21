@@ -1,9 +1,11 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from data_preprocessing import create_data_generators, predict_on_image
+from matplotlib import pyplot as plt
+
+from data_preprocessing import create_data_generators
 from model import create_model  # Import the create_model function
 
 
-def train_model(train_dir, valid_dir, epochs=5, batch_size=16):
+def train_model(train_dir, valid_dir, epochs=5, batch_size=32):
     """
     Trains the CNN model using the provided data generators.
 
@@ -17,7 +19,8 @@ def train_model(train_dir, valid_dir, epochs=5, batch_size=16):
         history: The training history object containing accuracy and loss
         metrics.
     """
-    train_generator, validation_generator = create_data_generators(train_dir, valid_dir)
+    train_generator, validation_generator = create_data_generators(train_dir,
+                                                                   valid_dir)
     model = create_model()
 
     history = model.fit(
@@ -27,6 +30,19 @@ def train_model(train_dir, valid_dir, epochs=5, batch_size=16):
         validation_data=validation_generator,
         validation_batch_size=batch_size,
     )
+
+    # Plot training and validation loss/accuracy
+    plt.plot(history.history['loss'], label='Training Loss')
+    plt.plot(history.history['val_loss'], label='Validation Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    plt.show()
+
+    plt.plot(history.history['accuracy'], label='Training Accuracy')
+    plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+    plt.show()
 
     return history
 
@@ -46,7 +62,8 @@ def evaluate_model(model, test_dir, target_size=(225, 225)):
     """
     test_datagen = ImageDataGenerator(rescale=1.0 / 255)
     test_generator = test_datagen.flow_from_directory(
-        test_dir, target_size=target_size, class_mode="categorical")
+        test_dir, target_size=target_size, class_mode="categorical"
+    )
 
     loss, accuracy = model.evaluate(test_generator)
     print(f"Test set accuracy: {accuracy:.4f}")
