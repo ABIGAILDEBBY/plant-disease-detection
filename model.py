@@ -1,5 +1,5 @@
-from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import (Conv2D, Dense, Flatten, MaxPooling2D,
+                                     Sequential)
 
 
 def create_model(input_shape=(225, 225, 3)):
