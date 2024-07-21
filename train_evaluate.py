@@ -1,5 +1,6 @@
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from matplotlib import pyplot as plt
+from tensorflow.keras.preprocessing.image import (AUC, ImageDataGenerator,
+                                                  Precision, Recall)
 
 from data_preprocessing import create_data_generators
 from model import create_model  # Import the create_model function
@@ -47,26 +48,62 @@ def train_model(train_dir, valid_dir, epochs=5, batch_size=32):
     return history
 
 
+# def evaluate_model(model, test_dir, target_size=(225, 225)):
+#     """
+#     Evaluates the trained model on the test data.
+
+#     Args:
+#         model (tf.keras.Model): The trained CNN model.
+#         test_dir (str): Path to the test data directory.
+#         target_size (tuple, optional): Target size for resizing test images.
+#             Defaults to (225, 225).
+
+#     Returns:
+#         None: Prints the model's evaluation metrics on the test set.
+#     """
+#     test_datagen = ImageDataGenerator(rescale=1.0 / 255)
+#     test_generator = test_datagen.flow_from_directory(
+#         test_dir, target_size=target_size, class_mode="categorical"
+#     )
+
+#     loss, accuracy = model.evaluate(test_generator)
+#     print(f"Test set accuracy: {accuracy:.4f}")
+
+
 def evaluate_model(model, test_dir, target_size=(225, 225)):
     """
-    Evaluates the trained model on the test data.
+    Evaluates the trained model on the test data using multiple metrics.
 
     Args:
         model (tf.keras.Model): The trained CNN model.
         test_dir (str): Path to the test data directory.
-        target_size (tuple, optional): Target size for resizing test images.
+        target_size (tuple, optional): Target size for resizing test images. 
             Defaults to (225, 225).
 
     Returns:
         None: Prints the model's evaluation metrics on the test set.
     """
-    test_datagen = ImageDataGenerator(rescale=1.0 / 255)
+    test_datagen = ImageDataGenerator(rescale=1./255)
     test_generator = test_datagen.flow_from_directory(
-        test_dir, target_size=target_size, class_mode="categorical"
+        test_dir,
+        target_size=target_size,
+        class_mode='categorical'
     )
 
+    # Evaluate and calculate multiple metrics
     loss, accuracy = model.evaluate(test_generator)
-    print(f"Test set accuracy: {accuracy:.4f}")
+    precision = Precision(name='precision')
+    recall = Recall(name='recall')
+    auc = AUC(name='auc')
+    model.compile(loss='categorical_crossentropy', metrics=[precision, recall,
+                                                            auc])
+    _, test_precision, test_recall, test_auc = model.evaluate(test_generator)
+    model.compile(loss='categorical_crossentropy', metrics=['accuracy'])
+    print(f"Test set Loss: {loss:.4f}")
+    print(f"Test set Accuracy: {accuracy:.4f}")
+    print(f"Test set Precision: {test_precision:.4f}")
+    print(f"Test set Recall: {test_recall:.4f}")
+    print(f"Test set AUC: {test_auc:.4f}")
 
 
 if __name__ == "__main__":
