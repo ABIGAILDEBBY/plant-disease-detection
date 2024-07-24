@@ -1,0 +1,103 @@
+{% extends "import.html" %} 
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Crop Disease Detection with Deep Learning</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <section class="hero">
+    <div class="container">
+      <h1>Diagnose Crop Diseases with Deep Learning</h1>
+      <p>Get accurate and easy diagnoses for your crops using our AI-powered tool.</p>
+      <button type="button" class="btn btn-primary" id="getStarted">Get Started</button>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="container">
+      <h2>How it Works</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="step">
+            <img src="{{ url_for('static', filename='img/step1.jpg')}}" alt="Upload Crop Image">
+            <h4>Upload Image</h4>
+            <p>Upload a clear image of your crop.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step">
+            <img src="{{ url_for('static', filename='img/step2.jpg') }}" alt="AI Analysis">
+            <h4>AI Analyzes Image</h4>
+            <p>Our deep learning model analyzes the image for signs of disease.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step">
+            <img src="{{ url_for('static', filename='img/step1.jpg') }}" alt="Get Results">
+            <h4>Get Results</h4>
+            <p>Receive a diagnosis and recommendations for treatment (if applicable).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container">
+      <h2>What Users Say</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="testimonial">
+            <p>"This tool has been a lifesaver for my crops! I was able to identify a disease early on and take action to save my harvest."</p>
+            <img src="{{ url_for('static', filename='img/user1.png') }}" alt="User 1">
+            <span>- Jane Smith, Agriculturist</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="testimonial">
+            <p>"This is such a user-friendly and accurate tool. I highly recommend it to anyone who wants to monitor the health of their crops."</p>
+            <img src="{{ url_for('static', filename='img/user2.png') }}" alt="User 2">
+            <span>- John Doe, Farmer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="prediction" id="predictionSection">
+    <div class="container">
+    <center>        
+            <h2 style="color:rgb(126, 180, 72)">Upload Your Crop Image</h2>
+
+            <form id="upload-file" method="post" enctype="multipart/form-data">
+                <label for="imageUpload" style="color:rgb(126, 180, 72)">Select Image:</label>
+                 <input type="file" name="file" class="btn btn-success" id="imageUpload" accept=".png, .jpg, .jpeg">
+            </form>
+        
+        
+            <div class="image-section" style="display:none;">
+                 <img id="imagePreview"  class="img-responsive" src="#" style="width:300px;height:300px;"/><br><br>
+                 <div>
+                    <button type="button" class="btn btn-info btn-lg " id="btn-predict">Predict!</button>
+                 </div>
+            </div>
+        
+            <div class="loader" style="display:none;"></div>
+        
+            <h3 id="result">
+                <span> </span>
+            </h3>
+        
+        
+        </center><br><br>
+
+{% endblock %}
+
