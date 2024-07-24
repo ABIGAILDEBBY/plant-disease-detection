@@ -1,7 +1,6 @@
 import numpy as np
 from PIL import Image
-from tensorflow.keras.preprocessing.image import (ImageDataGenerator,
-                                                  img_to_array)
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_array
 
 
 def preprocess_image(image_path, target_size=(225, 225)):
@@ -24,10 +23,7 @@ def preprocess_image(image_path, target_size=(225, 225)):
 
 
 def create_data_generators(
-    train_dir, test_dir,
-    target_size=(225, 225),
-    batch_size=32,
-    class_mode="categorical"
+    train_dir, test_dir, target_size=(225, 225), batch_size=32, class_mode="categorical"
 ):
     """
     Creates training and validation data generators using ImageDataGenerator.
@@ -46,19 +42,16 @@ def create_data_generators(
         tuple: A tuple containing the training and validation data generators.
     """
     train_datagen = ImageDataGenerator(
-        rescale=1.0 / 255, shear_range=0.2, zoom_range=0.2,
-        horizontal_flip=True
+        rescale=1.0 / 255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True
     )
     test_datagen = ImageDataGenerator(rescale=1.0 / 255)
 
     train_generator = train_datagen.flow_from_directory(
-        train_dir, target_size=target_size, batch_size=batch_size,
-        class_mode=class_mode
+        train_dir, target_size=target_size, batch_size=batch_size, class_mode=class_mode
     )
 
     validation_generator = test_datagen.flow_from_directory(
-        test_dir, target_size=target_size, batch_size=batch_size,
-        class_mode=class_mode
+        test_dir, target_size=target_size, batch_size=batch_size, class_mode=class_mode
     )
 
     return train_generator, validation_generator
