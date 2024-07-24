@@ -1,4 +1,4 @@
-# Crop Disease Detection with Deep Learning (Jupyter Notebook)
+# Crop Disease Detection with Deep Learning
 This project implements a Convolutional Neural Network (CNN) model for detecting crop diseases using image data from the Plant Disease Recognition Dataset available on Kaggle. The project utilizes a Jupyter Notebook for code execution and visualization.
 
 ### Table of Contents
